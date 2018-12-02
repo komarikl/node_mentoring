@@ -1,0 +1,32 @@
+{
+  "name": "mentoring",
+  "version": "1.0.0",
+  "description": "Node mentoring 2018 Ilyina",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/app.js",
+    "build": "babel src —-out-dir dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "nodemon": "^1.18.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/komarikl/node_mentoring.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Lada Ilyina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/komarikl/node_mentoring/issues"
+  },
+  "homepage": "https://github.com/komarikl/node_mentoring#readme"
+}
