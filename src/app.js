@@ -1,4 +1,6 @@
-const models = require('./models');
+const Dirwatcher = require('./dirwatcher');
+const Importer= require('./importer');
 
-const user = new models.user();
-const producr = new models.product();
+const DirWatcher = new Dirwatcher('./data', 1000);
+
+DirWatcher.watch();
