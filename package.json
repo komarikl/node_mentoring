@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/komarikl/node_mentoring/issues"
   },
-  "homepage": "https://github.com/komarikl/node_mentoring#readme"
+  "homepage": "https://github.com/komarikl/node_mentoring#readme",
+  "dependencies": {
+    "csv-parse": "^4.2.0"
+  }
 }

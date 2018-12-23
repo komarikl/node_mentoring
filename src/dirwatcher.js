@@ -17,8 +17,7 @@ class Dirwatcher {
                 fsWait = setTimeout(() => {
                     fsWait = false;
                 }, this.delay);
-                eventEmitter.emit('changed', filename);
-                console.log(`${filename} file Changed`);
+                eventEmitter.emit('changed', `${this.path}/${filename}`);
             }
         });
     }
