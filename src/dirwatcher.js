@@ -1,23 +1,27 @@
 const fs = require('fs');
-const EventEmitter = require('events').EventEmitter;
+const nodePath = require('path');
 
-eventEmitter = new EventEmitter();
 class Dirwatcher {
-    constructor(path, delay){
-        this.path = path;
-        this.delay = delay;
+    constructor(emitter, path){
+        this.emitter = emitter;
+
+        fs.readdir(path, (err, files) => {
+            files.forEach(filename => {
+                this.emitter.emit('changed', nodePath.resolve(path, filename));
+            });
+        })
     }
 
-    watch(){
+    watch(path, delay){
         let fsWait = null;
 
-        fs.watch(this.path, (event, filename) => {
+        fs.watch(path, (event, filename) => {
             if (filename) {
                 if (fsWait) return;
                 fsWait = setTimeout(() => {
                     fsWait = false;
-                }, this.delay);
-                eventEmitter.emit('changed', `${this.path}/${filename}`);
+                }, delay);
+                this.emitter.emit('changed', nodePath.resolve(path, filename));
             }
         });
     }

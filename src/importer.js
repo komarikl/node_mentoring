@@ -1,65 +1,58 @@
-const parse = require('csv-parse');
-const fs = require('fs');
+const parse = require("csv-parse");
+const fs = require("fs");
+const EventEmitter = require("events").EventEmitter;
+const Dirwatcher = require("./dirwatcher");
 
 class Importer {
-    constructor(path){
-        this.path = path;
-    }
+  constructor(path) {
+    const emitter = new EventEmitter();
+    const DirWatcher = new Dirwatcher(emitter, path);
 
-    init(){
-        const filenames = fs.readdirSync(this.path);
+    emitter.on("changed", filename => {
+      // console.log(importer.importSync(path))
+      this.import(filename)
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
+    });
 
-        return Promise.all(filenames.map(filename => {
-            return new Promise((resolve, reject) => {    
-                const content = fs.readFileSync(`${this.path}/${filename}`);
+    DirWatcher.watch(path, 1000);
+  }
 
-                parse(content, (err, parsedContent) => {
-                    if(err){
-                        reject(err)
-                    }
-                    
-                    resolve(parsedContent)
-                })
-            })
-            
-        }))
-    }
-
-    import(path){
-            return new Promise((resolve, reject) => {
-                fs.readFile(path, (err, data) => {
-                    if (err) {
-                      console.error(err)
-                      reject('unable file reading')
-                    }
-                    if(data){
-                        parse(data, (err, parsedData) => {
-                            if(err){
-                                console.error(err)
-                                reject('unable parsing')
-                            }
-
-                            const resp = {};
-                            resp[path] = parsedData;
-                            resolve(resp);
-                        })
-                    } 
-                  })
-            })
+  import(path) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path, (err, data) => {
+        if (err) {
+          console.error(err);
+          reject("unable file reading");
         }
+        if (data) {
+          parse(data, (err, parsedData) => {
+            if (err) {
+              console.error(err);
+              reject("unable parsing");
+            }
 
-    importSync(path){
-            const data = fs.readFileSync(path);
-            if(data){
-                parse(data, (err, parsedData) => {
-                    if(err){
-                        console.error(err);
-                        return [];
-                    }
-                    return parsedData;
-                })
-            } 
+            const resp = {};
+            resp[path] = parsedData;
+            resolve(resp);
+          });
+        }
+      });
+    });
+  }
+
+  importSync(path) {
+    const data = fs.readFileSync(path);
+    if (data) {
+      parse(data, (err, parsedData) => {
+        if (err) {
+          console.error(err);
+          return [];
+        }
+        return parsedData;
+      });
     }
+  }
 }
 
-module.exports =  Importer;
+module.exports = Importer;

@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/komarikl/node_mentoring#readme",
   "dependencies": {
-    "csv-parse": "^4.2.0"
+    "csv-parse": "^4.2.0",
+    "prettier": "^1.15.3"
   }
 }
