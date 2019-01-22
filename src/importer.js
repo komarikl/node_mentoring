@@ -1,21 +1,14 @@
 const parse = require("csv-parse");
 const fs = require("fs");
-const EventEmitter = require("events").EventEmitter;
-const Dirwatcher = require("./dirwatcher");
 
 class Importer {
-  constructor(path) {
-    const emitter = new EventEmitter();
-    const DirWatcher = new Dirwatcher(emitter, path);
-
+  constructor(emitter) {
     emitter.on("changed", filename => {
       // console.log(importer.importSync(path))
       this.import(filename)
         .then(data => console.log(data))
         .catch(err => console.error(err));
     });
-
-    DirWatcher.watch(path, 1000);
   }
 
   import(path) {
