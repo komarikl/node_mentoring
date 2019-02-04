@@ -30,7 +30,13 @@
   },
   "homepage": "https://github.com/komarikl/node_mentoring#readme",
   "dependencies": {
+    "commander": "^2.11.0",
     "csv-parse": "^4.2.0",
-    "prettier": "^1.15.3"
+    "csvtojson": "^1.1.12",
+    "lodash.debounce": "^4.0.8",
+    "prettier": "^1.15.3",
+    "request": "^2.88.0",
+    "split": "^1.0.1",
+    "through2": "^2.0.5"
   }
 }
