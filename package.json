@@ -37,6 +37,7 @@
     "prettier": "^1.15.3",
     "request": "^2.88.0",
     "split": "^1.0.1",
+    "stream-transform": "^1.0.8",
     "through2": "^2.0.5"
   }
 }

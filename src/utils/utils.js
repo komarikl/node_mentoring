@@ -2,30 +2,32 @@
 
 let fs = require('fs')
 let through2 = require('through2')
-let csvToJson = require('csvtojson')
 let request = require('request')
 let path = require('path')
+let parse = require("csv-parse")
+let transform = require('stream-transform')
 
 exports = module.exports = {}
+
+let transformer = transform((record, callback) =>
+        callback(null, record.join(' ')+'\n')
+)
 
 exports.printFile = (filePath) => {
     fs.createReadStream(filePath).pipe(process.stdout)
 }
 
 exports.convertCsvFileToJson = (filePath) => {
-    csvToJson()
-        .fromStream(fs.createReadStream(filePath))
-        .pipe(transformCsvToJson())
-        .pipe(process.stdout)
+    let parser = parse({delimiter: ';'})
+
+    fs.createReadStream(filePath).pipe(parser).pipe(transformer).pipe(process.stdout)
 }
 
 exports.convertCsvFileToJsonFile = (filePath) => {
     let outputFileName = path.join(path.dirname(filePath), `${path.basename(filePath, '.csv')}.json`)
+    let parser = parse({delimiter: ';'})
 
-    csvToJson()
-        .fromStream(fs.createReadStream(filePath))
-        .pipe(transformCsvToJson())
-        .pipe(fs.createWriteStream(outputFileName))
+    fs.createReadStream(filePath).pipe(parser).pipe(transformer).pipe(fs.createWriteStream(outputFileName))
 }
 
 exports.upperCase = () => {
@@ -35,6 +37,16 @@ exports.upperCase = () => {
 
     process.stdin
         .pipe(toUpperCase)
+        .pipe(process.stdout)
+}
+
+exports.reverse = () => {
+    let reverse = through2((chunk, enc, callback) => {
+            callback(null, new Buffer(chunk.toString().split('').reverse().join('')))
+        })
+
+    process.stdin
+        .pipe(reverse)
         .pipe(process.stdout)
 }
 
@@ -73,12 +85,4 @@ exports.bundleCss = (dirPath) => {
     })
 }
 
-function transformCsvToJson() {
-    let objs = []
-    return through2((data, enc, callback) => {
-        objs.push(JSON.parse(data.toString()))
-        callback(null, null)
-    }, (callback) => {
-        callback(null, JSON.stringify(objs, null, 2))
-    })
-}
+
