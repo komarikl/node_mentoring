@@ -2,10 +2,10 @@
   "name": "mentoring",
   "version": "1.0.0",
   "description": "Node mentoring 2018 Ilyina",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/app.js",
-    "build": "babel src —-out-dir dist",
+    "start": "nodemon --exec babel-node index.js",
+    "babel": "babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -31,8 +31,10 @@
   "homepage": "https://github.com/komarikl/node_mentoring#readme",
   "dependencies": {
     "commander": "^2.11.0",
+    "cookie-parser": "^1.4.4",
     "csv-parse": "^4.2.0",
     "csvtojson": "^1.1.12",
+    "express": "^4.16.4",
     "lodash.debounce": "^4.0.8",
     "prettier": "^1.15.3",
     "request": "^2.88.0",

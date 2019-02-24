@@ -1,3 +1,5 @@
 {
-  "name": "Node.js Homework Application"
+  "name": "Node.js Homework Application",
+  "defaultPort": 3000,
+  "listeningMsg": "App listening on port"
 }
