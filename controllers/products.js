@@ -9,10 +9,7 @@ export const getProductById = async (req, res, next) => {
     const product = products.find(p => p.id === id)
 
     if (!product) {
-        return next({
-            status: 404,
-            message: 'Product not found!'
-        })
+        return res.status(404).send('Product not found!')
     }
 
     res.json(product)
@@ -23,10 +20,7 @@ export const getProductReviewsById = async (req, res, next) => {
     const product = products.find(p => p.id === id)
 
     if (!product) {
-        return next({
-            status: 404,
-            message: 'Product not found!'
-        })
+        return res.status(404).send('Product not found!')
     }
 
     res.json(product.reviews)
