@@ -1,29 +1,40 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
-import { users } from '../models'
 import { privateKey } from '../config/config.json'
+import models from '../models/'
 
 export const checkCredentials = async (req, res, next) => {
     const { login, password } = req.query
-    const user = users.find(user => user.login === login)
 
-    if (!user) {
-        return res.status(404).send('User not found!')
-    }
-    if (user.password === password) {
-        const data = {
-            user: {
-                email: user.email,
-                username: user.username
+    models.Users.findAll({ where: { login, password } })
+        .then(users => {
+            if (!users.length) {
+                return res.status(404).send({
+                    code: 404,
+                    message: 'Not found!'
+                })
             }
-        }
-        res.status(200).json({
-            data,
-            token: jwt.sign(data, privateKey)
+
+            const [user] = users
+
+            res.status(200).json({
+                data: {
+                    user: {
+                        email: user.email,
+                        username: user.login
+                    }
+                },
+                token: jwt.sign(
+                    {
+                        id: user.id,
+                        login: user.login,
+                        email: user.email
+                    },
+                    privateKey
+                )
+            })
         })
-    } else {
-        return res.status(403).send({ message: 'Password incorrect.' })
-    }
+        .catch(err => console.log(err))
 }
 
 export const passportAuth = async (req, res, next) => {
@@ -182,5 +193,3 @@ export const facebookAuthCallback = async (req, res, next) => {
 export const facebookAuth = async (req, res, next) => {
     passport.authenticate('facebook')(req, res, next)
 }
-
-

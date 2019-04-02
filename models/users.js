@@ -1,16 +1,10 @@
-export default [
-    {
-        id: 0,
-        login: 'admin',
-        password: '123',
-        email: 'admin@mail.com',
-        username: 'Admin'
-    },
-    {
-        id: 1,
-        login: 'editor',
-        password: '123',
-        email: 'editor@mail.com',
-        username: 'User'
-    }
-]
+module.exports = (sequelize, DataTypes) =>
+    sequelize.define(
+        'Users',
+        {
+            login: DataTypes.STRING,
+            email: DataTypes.STRING,
+            password: DataTypes.STRING
+        },
+        {}
+    )

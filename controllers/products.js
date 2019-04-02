@@ -1,35 +1,49 @@
-import { products } from '../models'
+import models from '../models/'
 
-export const getProducts = async (req, res) => {
-    res.json(products)
+export const getProducts = async (req, res, next) => {
+    models.Products.findAll({})
+        .then(products => {
+            res.json(products)
+        })
+        .catch(err => console.log(err))
 }
 
 export const getProductById = async (req, res, next) => {
     const { id } = req.params
-    const product = products.find(p => p.id === id)
+    models.Products.findAll({ where: { id } })
+        .then(products => {
+            if (!products.length) {
+                return next({
+                    status: 404,
+                    message: 'Product not found!'
+                })
+            }
 
-    if (!product) {
-        return res.status(404).send('Product not found!')
-    }
-
-    res.json(product)
+            res.json(products[0])
+        })
+        .catch(err => console.log(err))
 }
 
 export const getProductReviewsById = async (req, res, next) => {
     const { id } = req.params
-    const product = products.find(p => p.id === id)
+    models.Products.findAll({ where: { id } })
+        .then(products => {
+            if (!products.length) {
+                return next({
+                    status: 404,
+                    message: 'Product not found!'
+                })
+            }
 
-    if (!product) {
-        return res.status(404).send('Product not found!')
-    }
-
-    res.json(product.reviews)
+            res.json(products[0].reviews)
+        })
+        .catch(err => console.log(err))
 }
 
-export const addNewProduct = async (req, res) => {
-    const { id = '0', title = '', reviews = [] } = req.body || {}
-    const newProduct = { id, title, reviews }
-
-    products.push(newProduct)
-    res.json(newProduct)
+export const addNewProduct = async (req, res, next) => {
+    const { title = '', reviews = [] } = req.body || {}
+    const newProduct = { title, reviews }
+    models.Products.create(newProduct)
+        .then(created => res.json(created))
+        .catch(err => console.log(err))
 }
