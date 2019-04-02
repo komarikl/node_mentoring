@@ -6,7 +6,10 @@
   "scripts": {
     "start": "nodemon --exec babel-node index.js",
     "babel": "babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mocks": "babel-node mocks.js",
+    "mongo": "babel-node server/mongo.js",
+    "mongoose": "babel-node server/mongoose.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -33,11 +36,14 @@
     "commander": "^2.11.0",
     "cookie-parser": "^1.4.4",
     "csv-parse": "^4.2.0",
+    "csvjson": "^5.1.0",
     "csvtojson": "^1.1.12",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.5.0",
     "lodash.debounce": "^4.0.8",
+    "mongodb": "^3.2.2",
+    "mongoose": "^5.4.20",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
