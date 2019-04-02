@@ -3,10 +3,10 @@
   "defaultPort": 3000,
   "privateKey": "secret",
   "listeningMsg": "App listening on port",
-  "GOOGLE_CLIENT_ID": "1095814981594-3dhvkgl98p2om6c5djb8pema5gug18bm.apps.googleusercontent.com",
-  "GOOGLE_CLIENT_SECRET": "W20-yAQKYBivQy0WWYKhzUBy",
-  "FACEBOOK_APP_ID": "314257049291616",
-  "FACEBOOK_APP_SECRET": "e09d2a65199ec1d4bf55419d56a234cc",
-  "TWITTER_CONSUMER_KEY": "fdhh5mGiiNLGFL9MKOetvD9iJ",
-  "TWITTER_CONSUMER_SECRET": "7GHFrdr9Gbgd5Cd67Cds24dfvRECCF56HFjkgF686Vgfkj90Bf"
+  "GOOGLE_CLIENT_ID": "secret", // there should be your keys
+  "GOOGLE_CLIENT_SECRET": "secret",
+  "FACEBOOK_APP_ID": "secret",
+  "FACEBOOK_APP_SECRET": "secret",
+  "TWITTER_CONSUMER_KEY": "secret",
+  "TWITTER_CONSUMER_SECRET": "secret"
 }
