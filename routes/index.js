@@ -1,3 +1,3 @@
 export { default as usersRoutes } from './users'
 export { default as productsRoutes } from './products'
-export { default as authRout } from './auth'
+export { default as authRouts } from './auth'

@@ -1,38 +1,24 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import { queryParser, cookiesParser, checkToken } from './middlewares/'
-import { usersRoutes, productsRoutes, authRout } from './routes/'
-import { users } from './models'
-import passport from 'passport'
-import passportLocal from 'passport-local'
+import session from 'express-session'
+import { privateKey } from './config/config.json'
+import { queryParser, cookiesParser } from './middlewares/'
+import { usersRoutes, productsRoutes, authRouts } from './routes/'
 
-const LocalStrategy = passportLocal.Strategy
+import passport from 'passport'
+import './passport'
+
 const app = express()
 
-passport.use(
-    new LocalStrategy(
-        {
-            usernameField: 'login',
-            passwordField: 'password'
-        },
-        function(login, password, done) {
-            const userData = users.find(user => user.login === login && user.password === password)
-
-            if (!userData) {
-                return done(null, false, { message: 'Login or password is incorrect.' })
-            }
-
-            return done(null, userData)
-        }
-    )
-)
-
-app.use(/\/((?!auth).)*/, checkToken)
 app.use(express.json())
 app.use(cookieParser(), cookiesParser)
 app.use(queryParser)
+app.use(session({ secret: privateKey }))
 
-app.use(authRout)
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(authRouts)
 app.use(usersRoutes)
 app.use(productsRoutes)
 
