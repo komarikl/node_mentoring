@@ -1,23 +1,21 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import { privateKey } from '../config/config.json'
-import models from '../models/'
+import Users from '../models/users'
 
 export const checkCredentials = async (req, res, next) => {
     const { login, password } = req.query
 
-    models.Users.findAll({ where: { login, password } })
-        .then(users => {
-            if (!users.length) {
+    Users.findOne({ login, password })
+        .then(user => {
+            if (!user) {
                 return res.status(404).send({
                     code: 404,
                     message: 'Not found!'
                 })
             }
 
-            const [user] = users
-
-            res.status(200).json({
+            res.status(200).send({
                 data: {
                     user: {
                         email: user.email,
@@ -26,7 +24,7 @@ export const checkCredentials = async (req, res, next) => {
                 },
                 token: jwt.sign(
                     {
-                        id: user.id,
+                        id: user._id,
                         login: user.login,
                         email: user.email
                     },
