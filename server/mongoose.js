@@ -2,7 +2,7 @@ import http from 'http'
 import mongoose from 'mongoose'
 import Cities from '../models/cities'
 import { mongodb } from '../config/db.json'
-import { defaultPort, serverStartMessage } from '../config/config.json'
+import { defaultPort, listeningMsg } from '../config/config.json'
 
 mongoose.Promise = Promise
 mongoose
@@ -20,7 +20,7 @@ mongoose
 
         http.createServer(echoRequestHandler).listen(defaultPort, err => {
             if (err) console.log(err)
-            console.log(`${serverStartMessage} ${defaultPort}`)
+            console.log(`${listeningMsg} ${defaultPort}`)
         })
     })
     .catch(err => console.log(err))
