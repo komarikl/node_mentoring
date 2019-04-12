@@ -1,33 +1,35 @@
 import express from 'express'
-import cookieParser from 'cookie-parser'
-import session from 'express-session'
 import mongoose from 'mongoose'
-import { privateKey } from './config/config.json'
-import { queryParser, cookiesParser } from './middlewares/'
-import { usersRoutes, productsRoutes, authRouts, citiesRoutes } from './routes/'
-
-import passport from 'passport'
-import './passport'
+import { privateKey, defaultPort } from './config/config.json'
+import { mongodb } from './config/db.json'
+import SwaggerExpress from 'swagger-express-mw'
+import BearerAuth from './middlewares/check-token'
 
 const app = express()
+const swaggerConfig = {
+    appRoot: __dirname,
+    swaggerSecurityHandlers: { BearerAuth }
+}
+SwaggerExpress.create(swaggerConfig, function(err, swaggerExpress) {
+    if (err) {
+        throw err
+    }
 
-mongoose.Promise = Promise
-mongoose
-    .connect(mongodb)
-    .then(() => {
-        app.use(express.json())
-        app.use(cookieParser(), cookiesParser)
-        app.use(queryParser)
-        app.use(session({ secret: privateKey }))
+    // install middleware
+    swaggerExpress.register(app)
 
-        app.use(passport.initialize())
-        app.use(passport.session())
+    const port = process.env.PORT || defaultPort
+    mongoose.Promise = Promise
+    mongoose
+        .connect(mongodb)
+        .then(() => {
+            app.listen(port)
+        })
+        .catch(console.log)
 
-        app.use(authRouts)
-        app.use(usersRoutes)
-        app.use(productsRoutes)
-        app.use(citiesRoutes)
-    })
-    .catch(err => console.log(err))
+    if (swaggerExpress.runner.swagger.paths['/hello']) {
+        console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott')
+    }
+})
 
 export default app

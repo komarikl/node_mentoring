@@ -1,15 +1,15 @@
 {
   "name": "mentoring",
   "version": "1.0.0",
-  "description": "Node mentoring 2018 Ilyina",
+  "description": "Node mentoring 2018 Ilyina - Swagger",
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node index.js",
     "babel": "babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "mocks": "babel-node mocks.js",
-    "mongo": "babel-node server/mongo.js",
-    "mongoose": "babel-node server/mongoose.js"
+    "swagger:start": "swagger project start",
+    "swagger:edit": "swagger project edit"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -17,7 +17,8 @@
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.18.7",
+    "swagger-editor": "^3.6.3"
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,8 @@
     "sequelize-fixtures": "^0.10.0",
     "split": "^1.0.1",
     "stream-transform": "^1.0.8",
+    "swagger": "^0.7.5",
+    "swagger-express-mw": "^0.7.0",
     "through2": "^2.0.5"
   }
 }

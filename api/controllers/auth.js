@@ -1,7 +1,7 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
-import { privateKey } from '../config/config.json'
-import Users from '../models/users'
+import { privateKey } from '../../config/config.json'
+import Users from '../../models/users'
 
 export const checkCredentials = async (req, res, next) => {
     const { login, password } = req.query

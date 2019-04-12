@@ -1,0 +1,431 @@
+swagger: '2.0'
+info:
+  description: |
+    Simple NodeJS-Mentoring server api
+  version: 1.0.0
+  title: NodeJS-Mentoring server
+  contact:
+    email: lada_ilyina@epam.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+- name: auth
+  description: User authentication endpoints
+- name: cities
+  description: REST-like API for cities
+- name: products
+  description: REST-like API for products
+- name: users
+  description: REST-like API for users
+# schemes:
+# - http
+paths:
+  /auth:
+    x-swagger-router-controller: auth
+    post:
+      tags:
+      - auth
+      summary: Base authentication with credentials
+      operationId: checkCredentials
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Credentials object
+        required: true
+        schema:
+          $ref: '#/definitions/Credentials'
+      responses:
+        404:
+          description: User not found
+        500:
+          description: Server error
+        200:
+          description: Success auth
+          schema:
+            $ref: '#/definitions/AuthResponse'
+  /cities:
+    x-swagger-router-controller: cities
+    get:
+      tags:
+      - cities
+      summary: Return all cities
+      operationId: getCities
+      produces:
+      - application/json
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+    post:
+      tags:
+      - cities
+      summary: Add new city
+      operationId: addNewCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: City object
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            $ref: '#/definitions/City'
+  /cities/{id}:
+    x-swagger-router-controller: cities
+    put:
+      tags:
+      - cities
+      summary: Change city data
+      operationId: updateCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of city
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: City object
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            $ref: '#/definitions/City'
+    delete:
+      tags:
+      - cities
+      summary: Delete city
+      operationId: deleteCity
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of city
+        required: true
+        type: string
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: object
+  /products:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - products
+      summary: Return all products
+      operationId: getProducts
+      produces:
+      - application/json
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+    post:
+      tags:
+      - products
+      summary: Add new product
+      operationId: addNewProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Product object
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            $ref: '#/definitions/Product'
+  /products/{id}:
+    x-swagger-router-controller: products
+    delete:
+      tags:
+      - products
+      summary: Delete product
+      operationId: deleteProduct
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: string
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: object
+    get:
+      tags:
+      - products
+      summary: Return product by id
+      operationId: getProductById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: string
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            $ref: '#/definitions/Product'
+  /products/{id}/reviews:
+    x-swagger-router-controller: products
+    get:
+      tags:
+      - products
+      summary: Return reviews by product id
+      operationId: getProductReviewsById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: string
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductReview'
+  /users:
+    x-swagger-router-controller: users
+    get:
+      tags:
+      - users
+      summary: Return user by id
+      operationId: getUsers
+      produces:
+      - application/json
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  /users/{id}:
+    x-swagger-router-controller: users
+    delete:
+      tags:
+      - users
+      summary: Delete user
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of user
+        required: true
+        type: string
+      security:
+      - BearerAuth: []
+      responses:
+        403:
+          description: Forbidden. No token!
+        500:
+          description: Server error
+        200:
+          description: Success operation
+          schema:
+            type: object
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+definitions:
+  Credentials:
+    type: object
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    required:
+    - login
+    - password
+  AuthResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+      data:
+        type: object
+    required:
+    - code
+    - message
+    - data
+  Location:
+    type: object
+    properties:
+      _id:
+        type: string
+      lat:
+        type: number
+      long:
+        type: number
+    required:
+    - lat
+    - long
+  City:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      country:
+        type: string
+      capital:
+        type: boolean
+        default: false
+      location:
+        $ref: '#/definitions/Location'
+    required:
+    - name
+    - country
+  ProductReview:
+    type: string
+  Product:
+    type: object
+    properties:
+      _id:
+        type: string
+      title:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date-time
+      reviews:
+        type: array
+        default: []
+        items:
+          $ref: '#/definitions/ProductReview'
+    required:
+    - title
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+      login:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date-time
+    required:
+    - login
+    - email
+host: localhost:8080
+basePath: /api
+schemes:
+ - http

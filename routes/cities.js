@@ -1,6 +1,6 @@
 import express from 'express';
 import { checkToken } from '../middlewares';
-import * as CitiesController from '../controllers/cities';
+import * as CitiesController from '../api/controllers/cities';
 
 const router = express.Router();
 

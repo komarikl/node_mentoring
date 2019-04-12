@@ -1,4 +1,4 @@
-import Users from '../models/users'
+import Users from '../../models/users'
 
 export const getUser = async (req, res, next) => {
     Users.find({}, { password: 0 })

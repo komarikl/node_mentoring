@@ -1,4 +1,4 @@
-import Cities from '../models/cities'
+import Cities from '../../models/cities'
 
 const updateCheck = object =>
     Object.keys(object).reduce((obj, key) => {

@@ -1,6 +1,6 @@
 import express from 'express'
 import { checkToken } from '../middlewares'
-import * as ProductsController from '../controllers/products'
+import * as ProductsController from '../api/controllers/products'
 
 const router = express.Router()
 
