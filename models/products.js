@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose'
+const mongoose = require('mongoose')
 
-const Products = new Schema({
+const Products = new mongoose.Schema({
     title: { type: String, index: true, required: true },
     reviews: { type: [String], required: true, default: [] },
     lastModifiedDate: Date
@@ -11,4 +11,4 @@ Products.pre('save', async function ProductsUpdate(next) {
     next()
 })
 
-export default mongoose.model('Products', Products)
+module.exports = mongoose.model('Products', Products)

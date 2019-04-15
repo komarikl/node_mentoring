@@ -1,11 +1,11 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import { privateKey, defaultPort } from './config/config.json'
-import { mongodb } from './config/db.json'
-import SwaggerExpress from 'swagger-express-mw'
-import BearerAuth from './middlewares/check-token'
+const SwaggerExpress = require('swagger-express-mw');
+const app = require('express')();
+const config = require('./config/config.json');
+const mongoose = require('mongoose');
+const dbConfig = require('./config/db.json');
+const BearerAuth = require('./middlewares/check-token');
+module.exports = app;
 
-const app = express()
 const swaggerConfig = {
     appRoot: __dirname,
     swaggerSecurityHandlers: { BearerAuth }
@@ -18,10 +18,10 @@ SwaggerExpress.create(swaggerConfig, function(err, swaggerExpress) {
     // install middleware
     swaggerExpress.register(app)
 
-    const port = process.env.PORT || defaultPort
+    const port = process.env.PORT || config.defaultPort
     mongoose.Promise = Promise
     mongoose
-        .connect(mongodb)
+        .connect(dbConfig.mongodb)
         .then(() => {
             app.listen(port)
         })
@@ -32,4 +32,4 @@ SwaggerExpress.create(swaggerConfig, function(err, swaggerExpress) {
     }
 })
 
-export default app
+

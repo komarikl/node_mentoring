@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
-import util from 'util'
-import csvjson from 'csvjson'
+const fs = require('fs')
+const path = require('path')
+const util = require('util')
+const csvjson = require('csvjson')
 
 const { resolve: resolvePath } = path
 const readOptions = { encoding: 'utf8' }

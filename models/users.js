@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose'
+const mongoose = require('mongoose')
 
-const Users = new Schema({
+const Users = new mongoose.Schema({
     login: { type: String, index: true, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
@@ -12,4 +12,4 @@ Users.pre('save', async function UsersUpdate(next) {
     next()
 })
 
-export default mongoose.model('Users', Users)
+module.exports = mongoose.model('Users', Users)

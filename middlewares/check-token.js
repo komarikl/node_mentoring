@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+const jwt = require('jsonwebtoken')
 const config = require('../config/config.json')
 
 module.exports = function(req, authOrSecDef, scopesOrApiKey, callback) {

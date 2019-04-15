@@ -1,4 +1,4 @@
-import Cities from '../../models/cities'
+const Cities = require('../../models/cities')
 
 const updateCheck = object =>
     Object.keys(object).reduce((obj, key) => {
@@ -8,13 +8,13 @@ const updateCheck = object =>
         return obj
     }, {})
 
-export const getCities = async (req, res, next) => {
+const getCities = async (req, res, next) => {
     Cities.find({})
         .then(r => res.json(r))
         .catch(err => console.log(err))
 }
 
-export const addNewCity = async (req, res, next) => {
+const addNewCity = async (req, res, next) => {
     const { name, capital, country, location } = req.body || {}
     const newCity = { name, capital, country, location }
     Cities.create(newCity)
@@ -22,14 +22,14 @@ export const addNewCity = async (req, res, next) => {
         .catch(err => console.log(err))
 }
 
-export const deleteCity = async (req, res, next) => {
+const deleteCity = async (req, res, next) => {
     const { id: _id } = req.params
     Cities.findByIdAndRemove({ _id })
         .then(() => res.json({ result: 'Success!' }))
         .catch(err => console.log(err))
 }
 
-export const updateCity = async (req, res, next) => {
+const updateCity = async (req, res, next) => {
     const { id: _id } = req.params
     const { name, capital, country, location } = req.body || {}
     const newCity = { name, capital, country, location }
@@ -37,4 +37,11 @@ export const updateCity = async (req, res, next) => {
         .then(city => (city ? Cities.findOneAndUpdate({ _id }, updateCheck(newCity)) : Cities.create(newCity)))
         .then(r => res.json(r))
         .catch(err => console.log(err))
+}
+
+module.exports = {
+    updateCity,
+    deleteCity,
+    addNewCity,
+    getCities
 }

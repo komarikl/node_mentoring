@@ -1,18 +1,18 @@
-import path from 'path';
-import mongoose from 'mongoose';
-import { Importer } from './importer';
-import { mongodb } from './config/db.json';
-import citiesFixtures from './data/cities';
+const path = require('path');
+const mongoose = require('mongoose');
+const Importer = require('./importer');
+const dbConfig = require('./config/db.json');
+const citiesFixtures = require('./data/cities');
 
-import Users from './models/users';
-import Cities from './models/cities';
-import Products from './models/products';
+const Users = require('./models/users');
+const Cities = require('./models/cities');
+const Products = require('./models/products');
 
 const importer = new Importer();
 const fixturesModels = ['Users', 'Products'];
 
 mongoose.Promise = Promise;
-mongoose.connect(mongodb)
+mongoose.connect(dbConfig.mongodb)
   .then(() => Cities.create(citiesFixtures))
   .then(() => console.log('[MongoDB] "Cities" fixtures applied!'))
   .then(() => {
