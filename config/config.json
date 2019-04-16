@@ -1,6 +1,6 @@
 {
   "name": "Node.js Homework Application",
-  "defaultPort": 3000,
+  "defaultPort": 8080,
   "privateKey": "secret",
   "listeningMsg": "App listening on port",
   "GOOGLE_CLIENT_ID": "secret",
